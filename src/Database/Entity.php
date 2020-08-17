@@ -126,16 +126,18 @@ class Entity implements \JsonSerializable
      * @param array $data
      */
     public function fill($data) {
-        $this->isNew = false;
+        if (!empty($data)) {
+            $this->isNew = false;
 
-        if ($data) {
-            foreach ($data as $key => $val) {
-                if (isset($this->columns[$key])) {
-                    $this->data[$key] = $val;
-                    $this->fill_data[$key] = $val;
-                    $property = $this->columns[$key]['property'];
-                    $property->setAccessible(true);
-                    $property->setValue($this, $val);
+            if ($data) {
+                foreach ($data as $key => $val) {
+                    if (isset($this->columns[$key])) {
+                        $this->data[$key] = $val;
+                        $this->fill_data[$key] = $val;
+                        $property = $this->columns[$key]['property'];
+                        $property->setAccessible(true);
+                        $property->setValue($this, $val);
+                    }
                 }
             }
         }
@@ -226,7 +228,12 @@ class Entity implements \JsonSerializable
                     }
                 }
             }
-            return $this->db->table($this->getTable())->where([$this->pk_info->name  . '=' . $pk])->update($data);
+
+            if (empty($data)) {
+                return 0;
+            } else {
+                return $this->db->table($this->getTable())->where([$this->pk_info->name  . '=' . $pk])->update($data);
+            }
         }
     }
 
