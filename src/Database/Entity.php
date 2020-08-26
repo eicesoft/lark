@@ -223,7 +223,7 @@ class Entity implements \JsonSerializable
                     $this->data[$key] = $val;
                     $old_val = isset($this->fill_data[$key]) ? $this->fill_data[$key] : null;
 
-                    if ($val != $old_val) {
+                    if ($val !== $old_val) {
                         $data[$key] = $val;
                     }
                 }
