@@ -52,7 +52,7 @@ abstract class Loader
         if (preg_match($class_preg, $content, $class_matches) && preg_match($namespace_preg, $content, $namespace_matches)) {
             $base_classname = $class_matches[1];
             $namespace_name = $namespace_matches[1];
-            include $filename;
+            include_once $filename;
 
             return $this->load($namespace_name, $base_classname);
         } else {
