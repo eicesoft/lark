@@ -1,8 +1,8 @@
 <?php
+
 namespace Lark\Database;
 
 
-use Lark\Core\Kernel;
 use Lark\Database\Driver\Database;
 use Swoole\Coroutine\MySQL\Statement;
 
@@ -65,7 +65,8 @@ class Db
     {
 //        $this->database = bean($database);
         if ($this->database_name != $database) {
-            $this->database = PoolFactory::create($database)->borrow();
+//            $this->database = PoolFactory::create($database)->borrow();
+            $this->database = bean($database);
         }
 
         $this->database_name = $database;
@@ -153,34 +154,20 @@ class Db
     }
 
     /**
-     * @return mxied|null
+     * @return array|mxied|null
      */
     public function get(array $params = [])
     {
         $sql = $this->select_builder();
         $this->reset();
-        /** @var \PDOStatement $stmt */
-        $stmt = $this->database->prepare($sql, $params);
-
-        if ($stmt) {
-            return $stmt->fetchAll();
-        } else {
-            return null;
-        }
+        return $this->query($sql, $params);
     }
 
     public function one(array $params = [])
     {
         $sql = $this->select_builder();
         $this->reset();
-        /** @var \PDOStatement $stmt */
-        $stmt = $this->database->prepare($sql, $params);
-
-        if ($stmt) {
-            return $stmt->fetch();
-        } else {
-            return null;
-        }
+        return $this->query($sql, $params, true);
     }
 
     /**
@@ -276,16 +263,21 @@ class Db
         $this->fields("Count(0) as C");
         $sql = $this->select_builder();
         $this->reset();
-
-        /** @var Statement $stmt */
-        $stmt = $this->database->prepare($sql, $params);
-
-        if ($stmt) {
-            $data = $stmt->fetch();
+        $data = $this->query($sql, $params, true);
+        if ($data) {
             return $data['C'] ?? 0;
         } else {
             return null;
         }
+//        /** @var Statement $stmt */
+//        $stmt = $this->database->prepare($sql, $params);
+//
+//        if ($stmt) {
+//            $data = $stmt->fetch();
+//            return $data['C'] ?? 0;
+//        } else {
+//            return null;
+//        }
     }
 
     /**
@@ -301,13 +293,20 @@ class Db
     /**
      * @param string $sql
      * @param array $params
+     * @param bool $one
+     * @return mixed
      */
-    public function query(string  $sql, array $params)
+    public function query(string $sql, array $params, $one = false)
     {
         $stmt = $this->database->prepare($sql, $params);
 
         if ($stmt) {
-            $datas = $stmt->fetchAll();
+            if ($one) {
+                $datas = $stmt->fetch();
+            } else {
+                $datas = $stmt->fetchAll();
+            }
+
             return $datas;
         } else {
             return null;
