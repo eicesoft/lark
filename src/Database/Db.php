@@ -65,8 +65,8 @@ class Db
     {
 //        $this->database = bean($database);
         if ($this->database_name != $database) {
-//            $this->database = PoolFactory::create($database)->borrow();
-            $this->database = bean($database);
+            $this->database = PoolFactory::create($database)->borrow();
+//            $this->database = bean($database);
         }
 
         $this->database_name = $database;
