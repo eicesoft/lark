@@ -170,8 +170,6 @@ final class Request
         return $data;
     }
 
-    private $sessions = [];
-
     /**
      * @param string $key
      * @param mixed $val
@@ -180,10 +178,15 @@ final class Request
      */
     public function session($key, $val=null, $default=null)
     {
+        $session_id = $this->header(Session::SESSION_ID,
+            md5(strval(microtime(true))));
+
+        $session = new Session($session_id);
+
         if ($val == null) {
-            return $this->sessions[$key] ?? $default;
+            return $session[$key] ?? $default;
         } else {
-            $this->sessions[$key] = $val;
+            $session[$key] = $val;
         }
     }
 }
