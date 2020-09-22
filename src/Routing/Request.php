@@ -40,9 +40,9 @@ final class Request
     private function parse_xml($xml)
     {
         $array = [];
-        foreach($xml as $k => $v) {
+        foreach ($xml as $k => $v) {
             if ($v->count() == 0) {
-                $res = (string) $v;
+                $res = (string)$v;
             } else {
                 $res = $this->parse_xml($v);
             }
@@ -155,7 +155,8 @@ final class Request
     /**
      * @return mixed
      */
-    public function getRaw($format=false) {
+    public function getRaw($format = false)
+    {
         $contentType = $this->header('content-type');
         $raw = $this->request->rawContent();
         try {
@@ -176,7 +177,7 @@ final class Request
      * @param mixed $default
      * @return mixed|null
      */
-    public function session($key, $val=null, $default=null)
+    public function session($key, $val = null, $default = null)
     {
         $session_id = $this->header(Session::SESSION_ID,
             md5(strval(microtime(true))));
@@ -187,6 +188,17 @@ final class Request
             return $session[$key] ?? $default;
         } else {
             $session[$key] = $val;
+        }
+    }
+
+    private $envs = [];
+
+    public function vars($key, $val = null, $default = null)
+    {
+        if ($val == null) {
+            return $this->envs[$key] ?? $default;
+        } else {
+            $this->envs[$key] = $val;
         }
     }
 }
