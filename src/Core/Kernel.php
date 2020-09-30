@@ -1,4 +1,5 @@
 <?php
+
 namespace Lark\Core;
 
 use Doctrine\Common\Annotations\AnnotationReader;
@@ -90,7 +91,7 @@ final class Kernel
      * @return object
      * @throws \ReflectionException
      */
-    public function newInstance($className, $params=[])
+    public function newInstance($className, $params = [])
     {
         $class = ReflectionManager::reflectClass($className);
         $handler = $class->newInstanceArgs($params);
@@ -116,7 +117,7 @@ final class Kernel
     {
         $reader = new AnnotationReader();
 
-        $properties = $reflect_class->getProperties(\ReflectionMethod::IS_PRIVATE);
+        $properties = $reflect_class->getProperties(\ReflectionMethod::IS_PRIVATE | \ReflectionMethod::IS_PROTECTED);
         foreach ($properties as $property) {
             $property_anntation = $reader->getPropertyAnnotation($property, Inject::class);
 
@@ -153,7 +154,7 @@ final class Kernel
      * @return mixed
      * @throws Exception
      */
-    public function call(object $obj, string $method, array $params=[], $skipTest=false)
+    public function call(object $obj, string $method, array $params = [], $skipTest = false)
     {
         if (method_exists($obj, $method) || $skipTest) {
             return call_user_func_array([$obj, $method], $params);
