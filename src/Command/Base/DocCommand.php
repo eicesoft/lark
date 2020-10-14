@@ -32,7 +32,7 @@ class DocCommand extends Command
     public function execute()
     {
         $output = $this->getOpt('o', null);
-
+        $type = $this->getOpt('t', 'json');
         $infos = ControllerLoader::Instance()->getLoadMetas();
         $docs = [];
         $docs['openapi'] = self::OPENAPI_VERSION;
@@ -90,7 +90,11 @@ class DocCommand extends Command
             $docs += $ext_info;
         }
 
-        $content = Yaml::dump($docs, 8,2);
+        if ($type == 'json') {
+            $content = json_encode($docs);
+        } else {
+            $content = Yaml::dump($docs, 8,2);
+        }
         if ($output == null) {
             echo $content;
         } else {
