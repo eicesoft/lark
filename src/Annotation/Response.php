@@ -11,6 +11,7 @@ class Response
     /**
      * default,template,json,xml
      * @var string
+     * @Required
      */
     public $type;
 
@@ -18,4 +19,10 @@ class Response
      * @var string
      */
     public $data = "";
+
+
+    /**
+     * @var string
+     */
+    public $desc='';
 }
