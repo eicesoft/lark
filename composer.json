@@ -29,11 +29,9 @@
     "phpunit/phpunit": "~6.0",
     "graze/guzzle-jsonrpc": "~3.0",
     "nette/mail": "^3.1",
-    "mingyoung/dingtalk": "2.0",
     "ext-gmp": "*",
     "ext-bcmath": "*",
     "symfony/yaml": "^5.1",
-    "alibabacloud/sdk": "^1.8"
   },
   "require-dev": {
     "swoole/ide-helper": "~4.4.7"
