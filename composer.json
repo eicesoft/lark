@@ -40,7 +40,7 @@
   },
   "autoload": {
     "files": [
-      "vendor/lark/src/Core/function.php",
+      "src/Core/function.php",
     ],
     "psr-4": {
       "Lark\\": "src",
