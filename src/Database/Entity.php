@@ -163,6 +163,7 @@ class Entity implements \JsonSerializable
             if ($column['anntation']->pk) {
                 $column['property']->setAccessible(true);
                 $val = $column['property']->setValue($this, $pk);
+                $this->fill([$key => $pk]);
                 break;
             }
         }
