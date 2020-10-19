@@ -40,10 +40,10 @@
   },
   "autoload": {
     "files": [
-      "src/Core/function.php",
+      "src/Core/function.php"
     ],
     "psr-4": {
-      "Lark\\": "src",
+      "Lark\\": "src"
     }
   },
   "scripts": {
