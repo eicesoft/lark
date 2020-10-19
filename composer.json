@@ -47,5 +47,7 @@
   },
   "scripts": {
     "start": "php ./bin/lark start"
-  }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
 }
