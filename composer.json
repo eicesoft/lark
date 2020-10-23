@@ -7,7 +7,7 @@
       "email": "eicesoft@gmail.com"
     }
   ],
-  "version": "0.9.1",
+  "version": "0.9.2",
   "keywords": [
     "php",
     "swoole",
@@ -30,7 +30,6 @@
     "phpunit/phpunit": "~6.0",
     "graze/guzzle-jsonrpc": "~3.0",
     "nette/mail": "^3.1",
-    "ext-gmp": "*",
     "ext-bcmath": "*",
     "symfony/yaml": "^5.1"
   },
