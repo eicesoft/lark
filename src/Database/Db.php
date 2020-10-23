@@ -44,6 +44,11 @@ class Db
     private $sorts = null;
 
     /**
+     * @var string|null
+     */
+    private $group = null;
+
+    /**
      * @var string
      */
     private $database_name;
@@ -104,6 +109,12 @@ class Db
         return $this;
     }
 
+    public function group($group): Db
+    {
+        $this->group = $group;
+        return $this;
+    }
+
     /**
      * @param array $limits
      * @return $this
@@ -128,6 +139,11 @@ class Db
             $s_where = ' WHERE ' . join(' AND ', $this->wheres);
         }
         $sql .= $s_where;
+
+        $s_group = '';
+        if ($this->group !== null) {
+            $s_group = ' GROUP BY ' . $this->group;
+        }
 
         $s_sort = '';
         if ($this->sorts !== null) {

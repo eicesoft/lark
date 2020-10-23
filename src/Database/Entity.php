@@ -280,6 +280,20 @@ class Entity implements \JsonSerializable
         }
     }
 
+    /**
+     * @param string $field
+     * @param string[] $wheres
+     * @param string[] $params
+     * @param string $group
+     * @param string[] $sort
+     * @return array|mxied|null
+     */
+    private function groupBy($field, $wheres, $params, $group, $sort)
+    {
+        $datas = $this->db->table($this->getTable())->fields($field)->group($group)->where($wheres)->sort($sort)->get($params);
+        return $datas;
+    }
+
     public function toArray()
     {
         return $this->data;
@@ -327,6 +341,14 @@ class Entity implements \JsonSerializable
         /** @var Entity $self */
         $self = new $class();
         return $self->findAll($wheres, $params, $sort, $limit, $format);
+    }
+    
+    public static function groups($field, $wheres, $params, $group, $sort=null)
+    {
+        $class = static::class;
+        /** @var Entity $self */
+        $self = new $class();
+        return $self->groupBy($field, $wheres, $params, $group, $sort);
     }
 
     /**
