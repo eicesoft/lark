@@ -1,6 +1,7 @@
 <?php
 namespace Lark\Core;
 
+use Illuminate\Database\Capsule\Manager;
 use Lark\Loader\CommandLoader;
 use Lark\Service\HttpService;
 use Lark\Service\RpcService;
@@ -102,8 +103,29 @@ class Lark
         $this->initEnv();
 
         ErrorHandler::registry();
+        $this->registry_database();
 
         return $this;
+    }
+
+    private function registry_database()
+    {
+        $manager = new Manager;
+
+        $manager->addConnection([
+            'driver'    => 'mysql',
+            'host'      => env('DB_HOST'),
+            'port'      => env('DB_PORT'),
+            'database'  => env('DB_DATABASE'),
+            'username'  => env('DB_USERNAME'),
+            'password'  => env('DB_PASSWORD'),
+            'charset'   => env('DB_CHARSET', 'utf8mb4'),
+            'collation' => env('DB_CHARSET_CODE', 'utf8mb4_unicode_ci'),
+            'prefix'    => '',
+        ]);
+
+        $manager->setAsGlobal();
+//        $manager->bootEloquent();
     }
 
     /**
