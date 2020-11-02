@@ -125,7 +125,7 @@ class Lark
         ]);
 
         $manager->setAsGlobal();
-//        $manager->bootEloquent();
+        $manager->bootEloquent();
     }
 
     /**
